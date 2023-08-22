@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		816F279A2A9503E7007FE7A8 /* Issue-CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816F27992A9503E7007FE7A8 /* Issue-CoreDataHelper.swift */; };
+		816F279C2A9503F0007FE7A8 /* Tag-CoreDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816F279B2A9503F0007FE7A8 /* Tag-CoreDataHelper.swift */; };
+		816F279F2A95140E007FE7A8 /* IssueRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816F279E2A95140E007FE7A8 /* IssueRow.swift */; };
+		816F27A12A95295D007FE7A8 /* IssueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816F27A02A95295D007FE7A8 /* IssueView.swift */; };
+		816F27A32A952963007FE7A8 /* NoIssueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 816F27A22A952963007FE7A8 /* NoIssueView.swift */; };
 		81A351562A912F92004AAF2D /* FeedbackCopyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A351552A912F92004AAF2D /* FeedbackCopyApp.swift */; };
 		81A351582A912F92004AAF2D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A351572A912F92004AAF2D /* ContentView.swift */; };
 		81A3515A2A912F94004AAF2D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81A351592A912F94004AAF2D /* Assets.xcassets */; };
@@ -19,6 +24,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		816F27992A9503E7007FE7A8 /* Issue-CoreDataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Issue-CoreDataHelper.swift"; sourceTree = "<group>"; };
+		816F279B2A9503F0007FE7A8 /* Tag-CoreDataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tag-CoreDataHelper.swift"; sourceTree = "<group>"; };
+		816F279E2A95140E007FE7A8 /* IssueRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueRow.swift; sourceTree = "<group>"; };
+		816F27A02A95295D007FE7A8 /* IssueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueView.swift; sourceTree = "<group>"; };
+		816F27A22A952963007FE7A8 /* NoIssueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoIssueView.swift; sourceTree = "<group>"; };
 		81A351522A912F92004AAF2D /* FeedbackCopy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FeedbackCopy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81A351552A912F92004AAF2D /* FeedbackCopyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackCopyApp.swift; sourceTree = "<group>"; };
 		81A351572A912F92004AAF2D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -44,6 +54,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		816F27A42A952978007FE7A8 /* IssueViews */ = {
+			isa = PBXGroup;
+			children = (
+				816F27A02A95295D007FE7A8 /* IssueView.swift */,
+				816F279E2A95140E007FE7A8 /* IssueRow.swift */,
+				816F27A22A952963007FE7A8 /* NoIssueView.swift */,
+			);
+			path = IssueViews;
+			sourceTree = "<group>";
+		};
 		81A351492A912F92004AAF2D = {
 			isa = PBXGroup;
 			children = (
@@ -66,6 +86,7 @@
 				81A351692A913C37004AAF2D /* Info.plist */,
 				81A3516F2A917B1A004AAF2D /* Filter.swift */,
 				81A351552A912F92004AAF2D /* FeedbackCopyApp.swift */,
+				816F27A42A952978007FE7A8 /* IssueViews */,
 				81A351712A917C5D004AAF2D /* Views */,
 				81A3516A2A917A09004AAF2D /* DataController */,
 				81A351592A912F94004AAF2D /* Assets.xcassets */,
@@ -88,6 +109,8 @@
 			children = (
 				81A351642A9133E9004AAF2D /* Main.xcdatamodeld */,
 				81A351672A91368B004AAF2D /* DataController.swift */,
+				816F27992A9503E7007FE7A8 /* Issue-CoreDataHelper.swift */,
+				816F279B2A9503F0007FE7A8 /* Tag-CoreDataHelper.swift */,
 			);
 			path = DataController;
 			sourceTree = "<group>";
@@ -112,6 +135,7 @@
 				81A3514E2A912F92004AAF2D /* Sources */,
 				81A3514F2A912F92004AAF2D /* Frameworks */,
 				81A351502A912F92004AAF2D /* Resources */,
+				816F279D2A950A04007FE7A8 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -167,6 +191,28 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		816F279D2A950A04007FE7A8 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		81A3514E2A912F92004AAF2D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -178,6 +224,11 @@
 				81A351682A91368B004AAF2D /* DataController.swift in Sources */,
 				81A3516C2A917A19004AAF2D /* SidebarView.swift in Sources */,
 				81A351582A912F92004AAF2D /* ContentView.swift in Sources */,
+				816F279A2A9503E7007FE7A8 /* Issue-CoreDataHelper.swift in Sources */,
+				816F279C2A9503F0007FE7A8 /* Tag-CoreDataHelper.swift in Sources */,
+				816F27A12A95295D007FE7A8 /* IssueView.swift in Sources */,
+				816F27A32A952963007FE7A8 /* NoIssueView.swift in Sources */,
+				816F279F2A95140E007FE7A8 /* IssueRow.swift in Sources */,
 				81A351562A912F92004AAF2D /* FeedbackCopyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -13,6 +13,9 @@ class DataController: ObservableObject {
     let container: NSPersistentCloudKitContainer
     /// Place to store users current selection of filter (frog)
     @Published var selectedFilter: Filter? = Filter.all
+    /// We need to see if there is a currently selected issue, we'll house that variable here
+    /// This will determine which view (NoIssueView or IssueView) that DetailView should show
+    @Published var selectedIssue: Issue? 
     /// Pre-made data controller, suitable for SwiftUI Views
     static var preview: DataController = {
         let dataController = DataController(inMemory: true)
@@ -26,6 +29,21 @@ class DataController: ObservableObject {
         if inMemory {
             container.persistentStoreDescriptions.first?.url = URL(filePath: "/dev/null")
         }
+        // ------This is for monitoring changes and update our UI accordingly (kind of how Reminders works)
+        // This is so iCloud updates while the app is being used
+        container.viewContext.automaticallyMergesChangesFromParent = true
+        // How are we merging changes if updates are happening in multiple places?
+        // Tell coreData to update changes locally first, then remotely
+        container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+        // See func remoteStoreChanged
+        container.persistentStoreDescriptions.first?.setOption(
+            true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
+        NotificationCenter.default.addObserver(
+            forName: .NSPersistentStoreRemoteChange,
+            object: container.persistentStoreCoordinator,
+            queue: .main,
+            using: remoteStoreChanged)
+        // -------
         /// This is the long term storage
         container.loadPersistentStores { storeDescription, error in
             /// Couldn't load data
@@ -34,20 +52,23 @@ class DataController: ObservableObject {
             }
         }
     }
+    // ----This is the final touch for ensuring our changes will get updated (see above line 29)
+    func remoteStoreChanged(_ notification: Notification) {
+        objectWillChange.send()
+    }
     /// Creates sample data to be used in testing and development, filled with default data
     func createSampleData() {
         /// ViewContext is the pool of data that's in RAM right now - whatever is loaded
         /// from disk, that is live in memory right now is our viewContext
         let viewContext = container.viewContext
         // Puddle
-        for i in 1...5 {
+        for tagNum in 1...5 {
             let tag = Tag(context: viewContext)
             tag.id = UUID()
-            tag.name = "Tag \(i)"
-            
-            for j in 1...10 {
+            tag.name = "Tag \(tagNum)"
+            for issueNum in 1...10 {
                 let issue = Issue(context: viewContext)
-                issue.title = "Issue \(i)-\(j)"
+                issue.title = "Issue \(tagNum)-\(issueNum)"
                 issue.content = "Issue Description goes here"
                 issue.creationDate = .now
                 issue.completed = Bool.random()
@@ -77,7 +98,7 @@ class DataController: ObservableObject {
         let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         batchDeleteRequest.resultType = .resultTypeObjectIDs
         if let delete = try? container.viewContext.execute(batchDeleteRequest) as? NSBatchDeleteResult {
-            let changes = [NSDeletedObjectsKey: delete.result as? [NSManagedObject] ?? []]
+            let changes = [NSDeletedObjectsKey: delete.result as? [NSManagedObjectID] ?? []]
             NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [container.viewContext])
         }
     }
@@ -86,5 +107,21 @@ class DataController: ObservableObject {
         delete(request1)
         let request2: NSFetchRequest<NSFetchRequestResult> = Tag.fetchRequest()
         delete(request2)
+        save()
+    }
+    
+    /// Finds all tags that are not already assigned to the specified issue
+    /// - Parameter issue: The issue we're going to find the tags for
+    /// - Returns: A sorted array of unassigned tags
+    func missingTags(from issue: Issue) -> [Tag] {
+        // make a request for all tags, and put them into an array
+        let request = Tag.fetchRequest()
+        let allTags = (try? container.viewContext.fetch(request)) ?? []
+        // make that array into a set
+        let allTagsSet = Set(allTags)
+        // find the difference, ie what tags do we not have for the issue
+        let difference = allTagsSet.symmetricDifference(issue.issueTags)
+        // now issues is a Set, but if we call .sorted() then it's an array ;)
+        return difference.sorted()
     }
 }
